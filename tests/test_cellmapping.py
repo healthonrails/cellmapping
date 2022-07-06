@@ -22,7 +22,14 @@ def galaxy_image():
 
 
 def test_filter_dog(galaxy_image):
-    """Sample pytest test function with the pytest fixture as an argument."""
-    from skimage.feature import blob_dog
-    blobs = blob_dog(galaxy_image, min_sigma=1, max_sigma=5, threshold=.1)
+    """Test filtering with the DoG filter"""
+    from cellmapping.detect import filter_dog
+    blobs = filter_dog(galaxy_image, min_sigma=1, max_sigma=5, threshold=.1)
     assert len(blobs) > 0
+
+
+def test_remove_background(galaxy_image):
+    """Test background remove from a image"""
+    from cellmapping.detect import remove_background
+    image_bg_removed = remove_background(galaxy_image)
+    assert image_bg_removed.shape == galaxy_image.shape
