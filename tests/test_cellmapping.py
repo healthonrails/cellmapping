@@ -33,3 +33,10 @@ def test_remove_background(galaxy_image):
     from cellmapping.detect import remove_background
     image_bg_removed = remove_background(galaxy_image)
     assert image_bg_removed.shape == galaxy_image.shape
+
+
+def test_h_max_transform(galaxy_image, h_max=None):
+    """Test H-max transformation of a image"""
+    from cellmapping.detect import h_max_transform
+    image_h_max = h_max_transform(galaxy_image, h_max=4.0)
+    assert image_h_max.shape == galaxy_image.shape
