@@ -29,14 +29,21 @@ def test_filter_dog(galaxy_image):
 
 
 def test_remove_background(galaxy_image):
-    """Test background remove from a image"""
+    """Test background remove from an image"""
     from cellmapping.detect import remove_background
     image_bg_removed = remove_background(galaxy_image)
     assert image_bg_removed.shape == galaxy_image.shape
 
 
 def test_h_max_transform(galaxy_image, h_max=None):
-    """Test H-max transformation of a image"""
+    """Test H-max transformation of an image"""
     from cellmapping.detect import h_max_transform
     image_h_max = h_max_transform(galaxy_image, h_max=4.0)
     assert image_h_max.shape == galaxy_image.shape
+
+
+def test_find_maxima(galaxy_image):
+    """Test finding maxima in an image"""
+    from cellmapping.detect import find_maxima
+    image_max = find_maxima(galaxy_image, size=5, h_max=4)
+    assert image_max.shape == galaxy_image.shape

@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from skimage.feature import blob_dog
 from skimage.morphology import reconstruction
+from scipy.ndimage.filters import maximum_filter
 
 
 def h_max_transform(img, h_max):
@@ -16,7 +17,6 @@ def h_max_transform(img, h_max):
     if h_max is None:
         return img
     img_h_max = reconstruction(img - h_max, img, method='dilation')
-    cv2.imwrite('h_max_transform.png', img_h_max)
     return img_h_max
 
 
@@ -46,10 +46,23 @@ def filter_dog(img,
     return blobs
 
 
-def find_maxima(img):
+def find_maxima(
+        img,
+        size=5,
+        h_max=None):
     """
     Find maxima in the image.
     """
+    img_shape = img.shape
+    if not isinstance(size, tuple):
+        if len(img_shape) == 2:
+            size = (size, size)
+        elif len(img_shape) == 3:
+            size = (size, size, size)
+    if h_max and h_max > 0:
+        img = h_max_transform(img, h_max)
+    img_max = maximum_filter(img, size=size)
+    return img_max == img
 
 
 def detect_cells(img):
