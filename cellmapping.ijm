@@ -1,4 +1,12 @@
+// Cell Detection
+// Mapping the detected cells to Atlas space
 
+// init 
+run("Clear Results"); 
+run("Close All");
+run("ROI Manager...");
+
+setBatchMode(true);
 
 #@ String (visibility=MESSAGE, value="<html><h1><font size=7 color=#B31B1B>Cell Mapping Pipeline</h><br/><h3><font size = 5><a href=https://cplab.net//> Cell Mapping Pipeline</a></html>") doc
 
@@ -21,6 +29,14 @@
 
 #@ Double(label="Atlas resolution(um):", value = 25, description="Atlas  resolution", style="spinner") AtlasResolution
 
+#@String  (visibility="MESSAGE", value="------------------------------------Cell Detection and Analysis ----------------------------------------") out2
+#@ String(label="Method for cell detection:", choices={"Find Maxima", "Machine Learning Segmentation with Ilastik"}, value = "Machine Learning Segmentation with Ilastik", style="listBox", description="") CellDetType
+
+#@ Integer(label="Minimum intensity threshold:", value = 125, style="spinner") MaximaInt1
+#@ Integer(label="Minimum cell area (um):", value = 20, style="spinner") Size1
+
+#@ File(label="Ilastik location (if using Ilastik for segmentation):", value = "/usr/local/ilastik-1.3.3post1", style="directory") IlastikDir
+ilastik = IlastikDir + "/run-ilastik.sh";
 
 title1 = "Brain Image Parameters"; 
 title2 = "["+title1+"]"; 
@@ -52,6 +68,9 @@ selectWindow(title1);
 saveAs("txt", input + "/Brain_Image_Parameters.csv");
 closeWindow(title1);
 
+// run a bash script for the background tasks
+// e.g.
+// exec("sh","/home/annolid/run_annolid.sh");
 
 function closeWindow(windowname) {
 	if (isOpen(windowname)) { 
