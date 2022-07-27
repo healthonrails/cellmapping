@@ -68,9 +68,16 @@ selectWindow(title1);
 saveAs("txt", input + "/Brain_Image_Parameters.csv");
 closeWindow(title1);
 
+
+rawSections = getFileList(input);
+rawSections = Array.sort( rawSections );
+Section1 = rawSections[0];
+File.openSequence(input, "virtual");
+rename("raw");
+
 // run a bash script for the background tasks
 // e.g.
-// exec("sh","/home/annolid/run_annolid.sh");
+exec("sh","./run_cellmapping.sh");
 
 function closeWindow(windowname) {
 	if (isOpen(windowname)) { 
