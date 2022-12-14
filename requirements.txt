@@ -1,2 +1,3 @@
 tifffile
 scikit-image
+bg-atlasapi
