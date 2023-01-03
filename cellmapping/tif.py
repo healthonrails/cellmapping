@@ -1,5 +1,6 @@
 import glob
 import os
+import SimpleITK as sitk
 
 
 def read_tiffs(
@@ -50,3 +51,44 @@ def resample_2d(img, target_shape=(320, 528)):
                      dsize=target_shape,
                      interpolation=cv2.INTER_CUBIC)
     return res
+
+
+def downsample_image(image_path, atlas_path):
+    """This function that takes the paths to 
+    the input image and atlas image as inputs 
+    and returns the downsampled image
+
+    Args:
+        image_path (str): path to the brain image
+        atlas_path (str): path to the atlas image
+
+    Returns:
+        image : downsampled image
+    """
+    # Load the TIFF image
+    image = sitk.ReadImage(image_path)
+
+    # Load the atlas image
+    atlas = sitk.ReadImage(atlas_path)
+
+    # Get the size of the atlas image
+    atlas_size = atlas.GetSize()
+
+    # Set the interpolation method
+    interpolator = sitk.sitkLinear
+
+    # Resample the image
+    # Create a resampling filter
+    resampling_filter = sitk.ResampleImageFilter()
+
+    # Set the output size and interpolation method
+    resampling_filter.SetSize(atlas_size)
+    resampling_filter.SetInterpolator(interpolator)
+
+    # Resample the image
+    downsampled_image = resampling_filter.Execute(image)
+
+    # Save the downsampled image
+    sitk.WriteImage(downsampled_image, "downsampled_image.tif")
+
+    return downsampled_image
