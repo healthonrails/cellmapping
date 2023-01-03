@@ -1,21 +1,40 @@
 # cellmapping
 
 
-[![image](https://img.shields.io/pypi/v/cellmapping.svg)](https://pypi.python.org/pypi/cellmapping)
-[![image](https://img.shields.io/conda/vn/conda-forge/cellmapping.svg)](https://anaconda.org/conda-forge/cellmapping)
+Mouse Brain Image Registration and Cell Detection
+This repository contains code for registering mouse brain images to an atlas and detecting and counting cells in different regions of the brain.
 
+# Requirements
+To use the code in this repository, you will need to have the following software and libraries installed on your computer:
+```
+Python 3
+SimpleITK
+scikit-image
+NumPy
+SciPy
+```
+You can install these dependencies by running the following command:
 
-**Decting cells and Mapping cells to commom atlas space**
+```
+pip install SimpleITK scikit-image numpy scipy
+```
+# Usage
+To register a mouse brain image to an atlas, use the register_brain function in the brain_registration.py module:
+```
+from brain_registration import register_brain
 
+registered_image_path = register_brain("half_mouse_brain.tif", "allen_brain_atlas.tif")
+```
+This function will perform intensity-based registration of the mouse brain image to the atlas using the Advanced Mattes Mutual Information metric and an affine transformation. The registered image will be saved as a TIFF file with a unique name, and the path to the registered image will be returned by the function.
 
--   Free software: MIT license
--   Documentation: https://healthonrails.github.io/cellmapping
-    
+To detect and count cells in different regions of the brain, use the detect_cells function in the cell_detection.py module:
+```
+from cell_detection import detect_cells
 
-## Features
+cell_counts = detect_cells("registered_mouse_brain.tif")
+```
+This function will detect cells in the registered mouse brain image using a combination of thresholding, morphological operations, and blob detection. It will then count the cells in each region of the brain and return a dictionary of cell counts.
 
--   TODO
-
-## Credits
-
-This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [giswqs/pypackage](https://github.com/giswqs/pypackage) project template.
+# License
+The code in this repository is released under the MIT License. 
+Acknowledgments
