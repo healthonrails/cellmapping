@@ -1,3 +1,4 @@
+import tifffile
 import cv2
 import numpy as np
 from skimage.feature import blob_dog
@@ -65,17 +66,18 @@ def find_maxima(
     return img_max == img
 
 
-def detect_cells(img):
+def detect_cells(signal_img_path,
+                 background_img_path,
+                 voxel_sizes=[5, 2, 2]):
     """
     Detect cells in the image.
     """
-    # remove background
-    img = remove_background(img)
-    # filter with the DoG filter
-    blobs = filter_dog(img)
+    from cellfinder_core.main import main as cellfinder_run
 
-    # find maxima
+    signal_array = tifffile.imread(signal_img_path)
+    background_array = tifffile.imread(background_img_path)
 
-    # cell size
-
-    return blobs
+    # voxel_sizes = [5, 2, 2]  # in microns
+    detected_cells = cellfinder_run(
+        signal_array, background_array, voxel_sizes)
+    return detected_cells
