@@ -21,7 +21,8 @@ def read_tiffs(
 
 def write_tiffs(ndarray,
                 filename='atlas_100mn_brain_sagital.tif',
-                photometric='minisblack'
+                photometric='minisblack',
+                save_16bit=True
                 ):
     """Save numpy array as a tif file
 
@@ -31,6 +32,8 @@ def write_tiffs(ndarray,
         photometric (str, optional): photmetric. Defaults to 'minisblack'.
     """
     from tifffile import imwrite
+    if save_16bit:
+        ndarray = (ndarray / np.max(ndarray) * (2**16-1)).astype(np.uint16)
     imwrite(filename, ndarray, photometric=photometric)
 
 
