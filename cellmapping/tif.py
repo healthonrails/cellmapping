@@ -1,6 +1,7 @@
 import glob
 import os
 import SimpleITK as sitk
+import numpy as np
 
 
 def read_tiffs(
