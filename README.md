@@ -35,6 +35,16 @@ cell_counts = detect_cells("registered_mouse_brain.tif")
 ```
 This function will detect cells in the registered mouse brain image using a combination of thresholding, morphological operations, and blob detection. It will then count the cells in each region of the brain and return a dictionary of cell counts.
 
+To register brain atlas to a sample brain, here is one example for using brainreg
+```ome/
+brainreg /path/to/auto_background.tif /path/to/outputs -v 20 5 5 --orientation ras --brain_geometry hemisphere_r
+
+```
+Note:  for -v or --voxel-sizes  flags
+The unit is micron. The first value is plane spacing i.e. the z-depth is 20 microns and the in-plane resolution is 5x5 microns. 
+
+For --orientation, the string is in bg-space initials form as the axis order(sliced plane, height, width).
+
 # License
 The code in this repository is released under the MIT License. 
 Acknowledgments
