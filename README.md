@@ -13,6 +13,8 @@ scikit-image
 NumPy
 SciPy
 ```
+Create an conda env for brainglobe
+```onda create -n brainglobe python==3.10```
 You can install these dependencies by running the following command:
 
 ```
@@ -44,6 +46,12 @@ Note:  for -v or --voxel-sizes  flags
 The unit is micron. The first value is plane spacing i.e. the z-depth is 20 microns and the in-plane resolution is 5x5 microns. 
 
 For --orientation, the string is in bg-space initials form as the axis order(sliced plane, height, width).
+Horizontal section
+If the first plane of this image was the top of the brain it would be sal/sar. If the first plane was the base it would be ial/iar.
+
+Coronal section
+If the first plane of this image was olfactory bulb, it would be asr (or asl). If the first plane was cerebellum, it would be psr or psl.
+https://brainglobe.info/documentation/general/image-definition.html
 
 # License
 The code in this repository is released under the MIT License. 

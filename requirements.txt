@@ -2,3 +2,4 @@ tifffile
 scikit-image
 bg-atlasapi
 cellfinder
+brainglobe>=1.0.0
