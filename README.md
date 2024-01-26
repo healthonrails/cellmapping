@@ -14,7 +14,16 @@ NumPy
 SciPy
 ```
 Create an conda env for brainglobe
-```onda create -n brainglobe python==3.10```
+```
+conda create -n brainglobe python==3.10
+pip install -r requirements.txt 
+# pip install brainglobe-workflows
+```
+Note: If you encounter the following error message  <fatal error: 'H5public.h' file not found 
+> on Mac, please try install dhf5 with
+```
+conda install hdf5
+```.
 You can install these dependencies by running the following command:
 
 ```
