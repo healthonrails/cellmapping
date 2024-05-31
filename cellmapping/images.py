@@ -1,8 +1,8 @@
-import numpy as np
-from scipy.ndimage import zoom
-import tifffile as tiff
 import argparse
 import os
+import tifffile as tiff
+from scipy.ndimage import zoom
+from brainglobe_utils.IO.image import load_any
 
 
 def rescale_annotation_to_brain(annotation_path, brain_path, output_path=None):
@@ -23,27 +23,34 @@ def rescale_annotation_to_brain(annotation_path, brain_path, output_path=None):
 
     # Get dimensions of the images
     annotation_shape = annotation.shape
+    print("Annotation Shape:", annotation_shape)
     brain_shape = brain.shape
+    print("Brain Shape:", brain_shape)
+    del brain
 
     # Calculate scaling factors
-    x_scaling_factor = brain_shape[1] / annotation_shape[1]
-    y_scaling_factor = brain_shape[0] / annotation_shape[0]
-    z_scaling_factor = brain_shape[2] / annotation_shape[2]
+    x_scaling_factor = brain_shape[2] / annotation_shape[2]
+    y_scaling_factor = brain_shape[1] / annotation_shape[1]
+    z_scaling_factor = brain_shape[0] / annotation_shape[0]
+    print("Scaling factors for x, y, z:", x_scaling_factor,
+          y_scaling_factor, z_scaling_factor)
 
     # Apply zoom to rescale the annotation image
-    rescaled_annotation = zoom(annotation, (y_scaling_factor,
-                                            x_scaling_factor,
-                                            z_scaling_factor), order=3)
+    rescaled_annotation = load_any(annotation_path,
+                                   x_scaling_factor,
+                                   y_scaling_factor,
+                                   z_scaling_factor)
 
     # Determine the output path if not provided
     if output_path is None:
-        brain_dir = os.path.dirname(brain_path)
-        brain_basename = os.path.basename(brain_path)
+        anno_dir = os.path.dirname(annotation_path)
+        anno_basename = os.path.basename(annotation_path)
         output_path = os.path.join(
-            brain_dir, f"{os.path.splitext(brain_basename)[0]}_anno.tif")
+            anno_dir, f"{os.path.splitext(anno_basename)[0]}_original_scale.tif")
 
     # Save the rescaled annotation image
     tiff.imwrite(output_path, rescaled_annotation.astype(annotation.dtype))
+    print("resacle anno shape: ", rescaled_annotation.shape)
 
     return (x_scaling_factor, y_scaling_factor, z_scaling_factor)
 
