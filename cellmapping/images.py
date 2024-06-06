@@ -7,18 +7,19 @@ from brainglobe_utils.IO.image import load_any
 
 # List of olfactory-related region labels/IDs based on provided list
 olfactory_region_ids = [
-    961,  # Piriform area (PIR)
-    159,  # Anterior olfactory nucleus (AON)
-    698,  # Olfactory areas (OLF)
-    507,  # Main olfactory bulb (MOB)
-    151,  # Accessory olfactory bulb (AOB)
-    188,  # Accessory olfactory bulb, glomerular layer (AOBgl)
-    196,  # Accessory olfactory bulb, granular layer (AOBgr)
-    204,  # Accessory olfactory bulb, mitral layer (AOBmi)
-    619,  # Nucleus of the lateral olfactory tract (NLOT)
-    260,  # Nucleus of the lateral olfactory tract, molecular layer (NLOT1)
-    268,  # Nucleus of the lateral olfactory tract, pyramidal layer (NLOT2)
-    1139  # Nucleus of the lateral olfactory tract, layer 3 (NLOT3)
+    416,  # Piriform area (PIR)
+    390,  # Anterior olfactory nucleus (AON)
+    379,  # Olfactory areas (OLF)
+    380,  # Main olfactory bulb (MOB)
+    386,  # Accessory olfactory bulb (AOB)
+    387,  # Accessory olfactory bulb, glomerular layer (AOBgl)
+    388,  # Accessory olfactory bulb, granular layer (AOBgr)
+    389,  # Accessory olfactory bulb, mitral layer (AOBmi)
+    421,  # Nucleus of the lateral olfactory tract (NLOT)
+    423,  # Nucleus of the lateral olfactory tract, molecular layer (NLOT1)
+    424,  # Nucleus of the lateral olfactory tract, pyramidal layer (NLOT2)
+    425,  # Nucleus of the lateral olfactory tract, layer 3 (NLOT3)
+    426,  # Cortical amygdalar area,(COA)
 ]
 
 
@@ -74,8 +75,10 @@ def rescale_annotation_to_brain(annotation_path, brain_path, regions, output_pat
           y_scaling_factor, z_scaling_factor)
 
     # Apply zoom to rescale the annotation image
-    rescaled_annotation = zoom(
-        annotation, (z_scaling_factor, y_scaling_factor, x_scaling_factor), order=0).astype(np.uint16)
+    rescaled_annotation = load_any(annotation_path,
+                                   x_scaling_factor,
+                                   y_scaling_factor,
+                                   z_scaling_factor).astype(np.uint16)
 
     # Determine the output path if not provided
     if output_path is None:
